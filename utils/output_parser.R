@@ -1,26 +1,22 @@
+library(magrittr)
 library(vroom)
-library(readr)
+library(dplyr)
 library(writexl)
 
 
-## pass factor_colname as argument
-args = commandArgs(trailingOnly = TRUE)
-# defaults = list("gene"))
-factor_colname = args[1]
-
-
 # read table factor - dummy drug correspondences
-factor_to_dummy_drug = vroom('factor_to_dummy_drug.tsv') %>%
-  dplyr::select(factor_colname, DRUG_ID)
+factor_to_dummy_drug = vroom('factor_to_dummy_drug.tsv', delim = "\t") %>%
+  dplyr::select(factor, DRUG_ID)
 
 # read ANOVA results
-ANOVA_results = vroom('ANOVA_results.csv')
+ANOVA_results = vroom('ANOVA_results.csv', delim = ",")
 
-# replace the factor names
+
+## replace the factor names
 ANOVA_results_fi = merge(factor_to_dummy_drug,
                          ANOVA_results) %>%
   # keep interesting columns
-  dplyr::select(factor_colname,
+  dplyr::select(factor,
                 N_FEATURE_pos,
                 N_FEATURE_neg,
                 FEATURE_pos_logIC50_MEAN,
@@ -37,11 +33,12 @@ ANOVA_results_fi = merge(factor_to_dummy_drug,
   # sort based on FDR
   dplyr::arrange(ANOVA_FEATURE_FDR)
 
-## split based on negative or positive selection in case group
+
+## split factor IDs based on them having consistently lower or higher score in case group (1) than in the 0 group
 ANOVA_results_fi %>%
   dplyr::filter(FEATURE_delta_MEAN_IC50 < 0) %>%
-  write_xlsx('factors_negatively_selected_in_cases.xlsx')
+  write_xlsx('factor_IDs_lower_in_cases.xlsx')
 
 ANOVA_results_fi %>%
   dplyr::filter(FEATURE_delta_MEAN_IC50 > 0) %>%
-  write_xlsx('factors_positively_selected_in_cases.xlsx')
+  write_xlsx('factor_IDs_higher_in_cases.xlsx')

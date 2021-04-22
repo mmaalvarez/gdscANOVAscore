@@ -1,0 +1,42 @@
+BootStrap: yum
+OSVersion: 7
+MirrorURL: http://mirror.centos.org/centos-%{OSVERSION}/%{OSVERSION}/os/$basearch/
+Include: yum
+Stage: build
+
+%environment
+    export LC_ALL=C
+
+%post
+    yum -y update
+    yum -y install wget java which dnf
+    yum -y install epel-release
+
+    yum -y install R
+    R --slave -e 'install.packages("vroom", repos="https://cran.rstudio.com/")'
+    R --slave -e 'install.packages("readr", repos="https://cran.rstudio.com/")'
+    R --slave -e 'install.packages("magrittr", repos="https://cran.rstudio.com/")'
+    R --slave -e 'install.packages("dplyr", repos="https://cran.rstudio.com/")'
+    R --slave -e 'install.packages("tidyr", repos="https://cran.rstudio.com/")'
+    R --slave -e 'install.packages("writexl", repos="https://cran.rstudio.com/")'
+
+    yum -y install python3-devel.x86_64
+    yum -y install python3-pip
+    yes | pip3 install gdsctools
+    yes | pip3 uninstall numpy scipy scikit-learn
+    yes | pip3 install numpy scipy scikit-learn
+
+%test
+    grep -q NAME=\"CentOS\ Linux\" /etc/os-release
+    if [ $? -eq 0 ]; then
+        echo "Container base is CentOS as expected"
+    else
+        echo "WARNING: container base is not CentOS!"
+    fi
+
+    grep -q VERSION=\"7\ \(Core\)\" /etc/os-release
+    if [ $? -eq 0 ]; then
+        echo "CentOS version is 7 (Core) as expected"
+    else
+        echo "WARNING: container base (should be CentOS) version is not 7 Core!"
+    fi

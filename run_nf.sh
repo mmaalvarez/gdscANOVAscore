@@ -3,9 +3,11 @@
 mkdir -p log/
 
 nextflow -log $PWD/log/nextflow.log run pipe.nf --input_table $PWD/test.tsv \
-												--list_cases $PWD/test_cases.txt \
+												--features $PWD/test_features.tsv \
 												--ID_colname BROAD_ID \
-												--cases_ID_colname cases_ID \
+												--features_ID_colname BROAD_ID \
 												--factor_colname gene \
 												--score_colname crispr_score \
-											    -resume -bg
+												--feature_stratify TP53mut_corrected \
+												--features_anovas HRmut MMRmut \
+											    #-resume -bg

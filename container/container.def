@@ -19,6 +19,7 @@ Stage: build
     R --slave -e 'install.packages("dplyr", repos="https://cran.rstudio.com/")'
     R --slave -e 'install.packages("tidyr", repos="https://cran.rstudio.com/")'
     R --slave -e 'install.packages("writexl", repos="https://cran.rstudio.com/")'
+    R --slave -e 'install.packages("conflicted", repos="https://cran.rstudio.com/")'
 
     yum -y install python3-devel.x86_64
     yum -y install python3-pip

@@ -2,3 +2,7 @@ container.sif
 log
 .nextflow
 work
+TODO
+backup
+utils/old
+utils/test

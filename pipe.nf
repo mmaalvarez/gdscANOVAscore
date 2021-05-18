@@ -40,7 +40,7 @@ process input_parser {
 }
 
 
-// the 2 processes below should go in a single process that allows to have >2 stratifying levels
+// the 2 processes below should go in a single process that allows to have >2 stratifying levels (or none)
 
 // Run gdsc ANOVA (strat zero = p53wt)
 process gdsc_anova_zero {

@@ -4,5 +4,6 @@ log
 work
 TODO
 backup
-utils/old
+OLD
 utils/test
+.Rhistory

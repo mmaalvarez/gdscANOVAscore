@@ -21,7 +21,8 @@ factor_colname = args[5] # "gene"
 score_colname = args[6] # "crispr_score"
 feature_stratify = args[7] # "TP53mut_corrected"
 features_anovas = args[8] # c("HRmut","MMRmut")
-
+features_anovas = strsplit(features_anovas,
+                           split=",", fixed=TRUE)[[1]]
 
 ## Parse input scores table (factor-specific scores for each subject) for ANOVA
 input_table = vroom(input_table_filename, delim = "\t") %>%

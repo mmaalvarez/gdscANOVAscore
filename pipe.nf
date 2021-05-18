@@ -24,7 +24,7 @@ process input_parser {
     val factor_colname from params.factor_colname
     val score_colname from params.score_colname
     val feature_stratify from params.feature_stratify
-    tuple features_anovas from params.features_anovas
+    val features_anovas from params.features_anovas
 
     output:
     file 'ANOVA_input.tsv' into ANOVA_input

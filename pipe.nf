@@ -48,6 +48,7 @@ process gdsc_anova_zero {
     input:
     path 'ANOVA_input.tsv' from ANOVA_input
     path 'features.tsv' from features_table
+    val cores from params.cores
 
     output:
     file 'ANOVA_res_strat_zero.csv' into ANOVA_results_zero
@@ -61,7 +62,8 @@ process gdsc_anova_zero {
     python3 $PWD/utils/gdsc_anova.py ANOVA_input.tsv \
                                      features.tsv \
                                      zero \
-                                     ANOVA_res_strat_zero.csv
+                                     ANOVA_res_strat_zero.csv \
+                                     ${cores}
     """
 }
 
@@ -71,6 +73,7 @@ process gdsc_anova_a {
     input:
     path 'ANOVA_input.tsv' from ANOVA_input
     path 'features.tsv' from features_table
+    val cores from params.cores
 
     output:
     file 'ANOVA_res_strat_a.csv' into ANOVA_results_a
@@ -84,7 +87,8 @@ process gdsc_anova_a {
     python3 $PWD/utils/gdsc_anova.py ANOVA_input.tsv \
                                      features.tsv \
                                      a \
-                                     ANOVA_res_strat_a.csv
+                                     ANOVA_res_strat_a.csv \
+                                     ${cores}
     """
 }
 
@@ -111,3 +115,6 @@ process output_parser {
     Rscript $PWD/utils/output_parser.R
     """
 }
+
+parsed_results
+    .println { "Finished! Results saved in res/" }

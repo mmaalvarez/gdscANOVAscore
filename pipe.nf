@@ -14,6 +14,10 @@ Channel
 // test.tsv to wide format (factors as columns, subjects as rows) ; factors names to dummy drug names, and create reference table to rename afterwards ; subjects id column name renamed to COSMIC_ID, and ids changed to 1,2,3.. ; features.tsv keep only subjects id (renamed as COSMIC_ID, and 1,2,3...),  if requested, stratifying factor column as TISSUE_FACTOR, and requested (or all) feature columns for each ANOVA
 process input_parser {
 
+    time = { params.time_parsers.hour }
+
+    cpus = { params.cores_parsers }
+
     input:
     // files paths and names
     path 'table' from params.input_table //subtables_by_factor
@@ -45,10 +49,8 @@ process input_parser {
 // Run gdsc ANOVA (strat zero = p53wt)
 process gdsc_anova_zero {
 
-    // time
-    time = { 48.hour }
+    time = { params.time_anova.hour }
 
-    // cpus
     cpus = { params.cores_anova }
 
     input:
@@ -76,10 +78,8 @@ process gdsc_anova_zero {
 // Run gdsc ANOVA (strat a = p53mut)
 process gdsc_anova_a {
 
-    // time
-    time = { 48.hour }
+    time = { params.time_anova.hour }
 
-    // cpus
     cpus = { params.cores_anova }
 
     input:
@@ -109,6 +109,10 @@ process gdsc_anova_a {
 // This should change accordingly if I implement the sub-table parallelization, namely it should replace the dummy drug names by the original factor IDs in each subtable's ANOVA results (as it is done now), gather and merge all subtables into a single table ¿ANOVA_results\n\t.collectFile(name: '...', keepHeader: true)?, recalculate the FDR, and split them by the direction of delta (as it is done now). Maybe these are 2 or 3 processes
 process output_parser {
     
+    time = { params.time_parsers.hour }
+
+    cpus = { params.cores_parsers }
+
     // Copy the resulting excel file(s) to a results folder
     publishDir 'res/'
 

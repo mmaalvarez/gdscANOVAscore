@@ -5,6 +5,10 @@ library(stats)
 library(writexl)
 
 
+args = commandArgs(trailingOnly = TRUE)
+output_name = args[1]
+
+
 # read table factor - dummy drug correspondences
 factor_to_dummy_drug = vroom('factor_to_dummy_drug.tsv', delim = "\t") %>%
   select(factor, DRUG_ID)
@@ -68,4 +72,4 @@ bound_tables = rbind(list_tables$TP53wt,
 
 # write
 write_xlsx(bound_tables,
-           paste0('parsed_results.xlsx'))
+           paste0(output_name, '.xlsx'))

@@ -11,4 +11,5 @@ nextflow -log $PWD/log/nextflow.log run pipe.nf --input_table $PWD/test.tsv \
 												--feature_stratify TP53mut_corrected \
 												--features_anovas HRmut,MMRmut \
 												--cores 4 \
+												--output_name test_parsed_results \
 											    -resume -bg

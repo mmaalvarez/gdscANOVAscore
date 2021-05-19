@@ -105,14 +105,15 @@ process output_parser {
     path 'factor_to_dummy_drug.tsv' from factor_to_dummy_drug
     path 'ANOVA_res_strat_zero.csv' from ANOVA_results_zero
     path 'ANOVA_res_strat_a.csv' from ANOVA_results_a
+    val 'output_name' from params.output_name
 
     output:
-    file 'parsed_results.xlsx' into parsed_results
+    file '*.xlsx' into parsed_results
 
     """
     #!/usr/bin/env bash
 
-    Rscript $PWD/utils/output_parser.R
+    Rscript $PWD/utils/output_parser.R ${output_name}
     """
 }
 

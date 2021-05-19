@@ -45,10 +45,16 @@ process input_parser {
 // Run gdsc ANOVA (strat zero = p53wt)
 process gdsc_anova_zero {
 
+    // time
+    time = { 48.hour }
+
+    // cpus
+    cpus = { params.cores_anova }
+
     input:
     path 'ANOVA_input.tsv' from ANOVA_input
     path 'features.tsv' from features_table
-    val cores from params.cores
+    val cores from params.cores_anova
 
     output:
     file 'ANOVA_res_strat_zero.csv' into ANOVA_results_zero
@@ -70,10 +76,16 @@ process gdsc_anova_zero {
 // Run gdsc ANOVA (strat a = p53mut)
 process gdsc_anova_a {
 
+    // time
+    time = { 48.hour }
+
+    // cpus
+    cpus = { params.cores_anova }
+
     input:
     path 'ANOVA_input.tsv' from ANOVA_input
     path 'features.tsv' from features_table
-    val cores from params.cores
+    val cores from params.cores_anova
 
     output:
     file 'ANOVA_res_strat_a.csv' into ANOVA_results_a

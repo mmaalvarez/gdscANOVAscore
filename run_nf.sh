@@ -10,6 +10,6 @@ nextflow -log $PWD/log/nextflow.log run pipe.nf --input_table $PWD/test.tsv \
 												--score_colname crispr_score \
 												--feature_stratify TP53mut_corrected \
 												--features_anovas HRmut,MMRmut \
-												--cores 4 \
+												--cores_anova 2 \
 												--output_name test_parsed_results \
 											    -resume -bg

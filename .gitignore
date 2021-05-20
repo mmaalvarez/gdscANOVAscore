@@ -7,3 +7,4 @@ backup
 OLD
 utils/test
 .Rhistory
+test_big_O

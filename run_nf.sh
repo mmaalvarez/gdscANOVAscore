@@ -12,7 +12,5 @@ nextflow -log $PWD/log/nextflow.log run pipe.nf --input_table $PWD/test.tsv \
 												--features_anovas HRmut,MMRmut \
 												--time_parsers 1 \
 												--time_anova 2 \
-												--cores_parsers 2 \
-												--cores_anova 3 \
 												--output_name test_parsed_results \
 												-resume -bg

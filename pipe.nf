@@ -16,8 +16,6 @@ process input_parser {
 
     time = { params.time_parsers.hour }
 
-    cpus = { params.cores_parsers }
-
     input:
     // files paths and names
     path 'table' from params.input_table //subtables_by_factor
@@ -51,12 +49,9 @@ process gdsc_anova_zero {
 
     time = { params.time_anova.hour }
 
-    cpus = { params.cores_anova }
-
     input:
     path 'ANOVA_input.tsv' from ANOVA_input
     path 'features.tsv' from features_table
-    val cores from params.cores_anova
 
     output:
     file 'ANOVA_res_strat_zero.csv' into ANOVA_results_zero
@@ -70,8 +65,7 @@ process gdsc_anova_zero {
     python3 $PWD/utils/gdsc_anova.py ANOVA_input.tsv \
                                      features.tsv \
                                      zero \
-                                     ANOVA_res_strat_zero.csv \
-                                     ${cores}
+                                     ANOVA_res_strat_zero.csv
     """
 }
 
@@ -80,12 +74,9 @@ process gdsc_anova_a {
 
     time = { params.time_anova.hour }
 
-    cpus = { params.cores_anova }
-
     input:
     path 'ANOVA_input.tsv' from ANOVA_input
     path 'features.tsv' from features_table
-    val cores from params.cores_anova
 
     output:
     file 'ANOVA_res_strat_a.csv' into ANOVA_results_a
@@ -99,8 +90,7 @@ process gdsc_anova_a {
     python3 $PWD/utils/gdsc_anova.py ANOVA_input.tsv \
                                      features.tsv \
                                      a \
-                                     ANOVA_res_strat_a.csv \
-                                     ${cores}
+                                     ANOVA_res_strat_a.csv
     """
 }
 
@@ -110,8 +100,6 @@ process gdsc_anova_a {
 process output_parser {
     
     time = { params.time_parsers.hour }
-
-    cpus = { params.cores_parsers }
 
     // Copy the resulting excel file(s) to a results folder
     publishDir 'res/'

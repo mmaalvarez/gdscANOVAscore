@@ -59,7 +59,7 @@ process gdsc_anova_zero {
     """
     #!/usr/bin/env bash
 
-    // this is not used when run in container
+    # this is not used when run in container
     conda activate gdsctools
 
     python3 $PWD/utils/gdsc_anova.py ANOVA_input.tsv \
@@ -84,7 +84,7 @@ process gdsc_anova_a {
     """
     #!/usr/bin/env bash
 
-    // this is not used when run in container
+    # this is not used when run in container
     conda activate gdsctools
     
     python3 $PWD/utils/gdsc_anova.py ANOVA_input.tsv \

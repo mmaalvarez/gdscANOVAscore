@@ -16,11 +16,11 @@ factor_to_dummy_drug = vroom('factor_to_dummy_drug.tsv', delim = "\t") %>%
 ## read results
 list_tables = list()
 for (strat in c("zero", "a")){
-  ## ('zero' = '0' = p53wt ; 'a' = '1' = p53mut)
+  ## e.g. ('zero' = '0' = p53wt ; 'a' = '1' = p53mut)
   strat_meaning = ifelse(strat == "zero",
-                         yes = "TP53wt",
+                         yes = "strat_wt",
                          no = ifelse(strat == "a",
-                                     yes = "TP53-/-",
+                                     yes = "strat_-/-",
                                      no = "ERROR: more than 2 stratification levels"))
   # read ANOVA results
   ANOVA_results = vroom(paste0('ANOVA_res_strat_',
@@ -61,8 +61,8 @@ for (strat in c("zero", "a")){
 }
 
 ## merge stratified tables
-bound_tables = rbind(list_tables$TP53wt,
-                     list_tables$`TP53-/-`) %>%
+bound_tables = rbind(list_tables$strat_wt,
+                     list_tables$`strat_-/-`) %>%
   # recalculate FDR using BH based on BOTH stratification levels' pvalues
   mutate(updated_FDR = p.adjust(.$ANOVA_FEATURE_pval, method="BH")) %>%
   # rename FEATURE

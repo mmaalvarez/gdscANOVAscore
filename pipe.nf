@@ -16,6 +16,9 @@ process input_parser {
 
     time = { params.time_parsers.hour }
 
+    // start with 1.GB and increase memory by 4.GB at each retry
+    memory = { (1 + 4*(task.attempt-1)).GB }
+
     input:
     // files paths and names
     path 'table' from params.input_table //subtables_by_factor
@@ -49,6 +52,9 @@ process gdsc_anova_zero {
 
     time = { params.time_anova.hour }
 
+    // start with 1.GB and increase memory by 4.GB at each retry
+    memory = { (1 + 4*(task.attempt-1)).GB }
+
     input:
     path 'ANOVA_input.tsv' from ANOVA_input
     path 'features.tsv' from features_table
@@ -73,6 +79,9 @@ process gdsc_anova_zero {
 process gdsc_anova_a {
 
     time = { params.time_anova.hour }
+
+    // start with 1.GB and increase memory by 4.GB at each retry
+    memory = { (1 + 4*(task.attempt-1)).GB }
 
     input:
     path 'ANOVA_input.tsv' from ANOVA_input
@@ -100,6 +109,9 @@ process gdsc_anova_a {
 process output_parser {
     
     time = { params.time_parsers.hour }
+
+    // start with 1.GB and increase memory by 4.GB at each retry
+    memory = { (1 + 4*(task.attempt-1)).GB }
 
     // Copy the resulting excel file(s) to a results folder
     publishDir 'res/'
